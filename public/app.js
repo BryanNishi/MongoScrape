@@ -55,3 +55,52 @@ $(document).on("click", "#savenote", function () {
   $("#titleinput").val("");
   $("#bodyinput").val("");
 });
+
+
+// When you click the savearticle button
+$(document).on("click", "#savearticle", function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  // AJAX
+  $.ajax({
+      method: "POST",
+      url: "/articles/" + thisId,
+      data: {
+        title: $("#titleinput").val(),
+        body: $("#bodyinput").val()
+      }
+    })
+    .then(function (data) {
+      // Empty the notes section on submit 
+      $("#notes").empty();
+    });
+
+  // reset data entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});
+
+// When you click the deletearticle button
+$(document).on("click", "#deletearticle", function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  // AJAX
+  $.ajax({
+      method: "DELETE",
+      url: "/articles/" + thisId,
+      data: {
+        title: $("#titleinput").val(),
+        body: $("#bodyinput").val()
+      }
+    })
+    .then(function (data) {
+      // Empty the notes section on submit 
+      $("#notes").empty();
+    });
+
+  // reset data entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});

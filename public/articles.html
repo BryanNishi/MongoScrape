@@ -9,8 +9,7 @@
   <style>
     body { 
       background-image: url(https://i.imgur.com/lqFniyN.jpg);
-      background-position: center;
-      background-size: cover;
+      background-size: 100%;
       color: white;
       font-family: "MedievalSharp";
       }
@@ -61,10 +60,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.html">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/articles">Saved Articles</a>
+          <a class="nav-link">Saved Articles<span class="sr-only">(current)</span></a>
         </li>
         <li>
          <a href="/scrape" ><button class="btn btn-danger">Scrape New Articles</button></a>
@@ -74,8 +73,8 @@
     </div>
   </nav>
   <div>
-    <div id="articles"></div>
-    <div id="notes"></div>
+    <div id="savedArticles"></div>
+    <div id="savedNotes"></div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="app.js"></script>

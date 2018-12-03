@@ -65,7 +65,7 @@ $(document).on("click", "#savearticle", function () {
   // AJAX
   $.ajax({
       method: "POST",
-      url: "/articles/" + thisId,
+      url: "/savedArticles/" + thisId,
       data: {
         title: $("#titleinput").val(),
         body: $("#bodyinput").val()

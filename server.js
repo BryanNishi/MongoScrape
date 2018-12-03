@@ -45,9 +45,9 @@ app.get("/scrape", function (req, res) {
         .children("a")
         .attr("href");
       result.summary = $(this)
-      .children("div.post-excerpt__description")
-      .children("p")
-      .text();
+        .children("div.post-excerpt__description")
+        .children("p")
+        .text();
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
@@ -59,12 +59,12 @@ app.get("/scrape", function (req, res) {
           // If an error occurred, log it
           console.log(err);
         });
-       
+
     });
 
-    // Send a message to the client
-    res.send("Scrape Complete");
-     // OR TRY RES.SEND or RES.RENDER to send data to html file.*************************************************************************
+
+    res.send("Scrape Complete")
+
   });
 });
 

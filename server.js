@@ -161,3 +161,18 @@ app.get("/save", function (req, res) {
       res.json(err);
     });
 });
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/delete/:id", function (req, res) {
+
+  db.Article.findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      $set: {
+        saved: false
+      }
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});

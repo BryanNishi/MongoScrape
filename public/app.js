@@ -82,3 +82,17 @@ $(document).on("click", ".save", function () {
 });
 
 //Delete Saved
+$(document).on("click", ".delete", function () {
+  var thisId = $(this).attr("data-id");
+  $.ajax({
+    method: "GET",
+    url: "/delete/" + thisId
+  }).then(function (data) {
+    for (var i = 0; i < data.length; i++) {
+      // Display each article card
+      $("#savedArticles").removeChild('<div class="card" id="articleCard"><div class="card-body"><h5 class="card-title">' + data[i].title + '</h5><p class="card-text">' + data[i].summary + '</p><a class="btn btn-success" id="' + data[i]._id + '">Add Note</a><a class="btn btn-info save" id="' + data[i]._id + '">Save Article</a><a href="' + data[i].link + '" class="btn btn-warning">Go to Article</a></div></div>');
+    }
+  })
+
+  $(this).html("Deleted!");
+});

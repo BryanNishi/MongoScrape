@@ -131,3 +131,33 @@ app.post("/articles/:id", function (req, res) {
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
 });
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/save/:id", function (req, res) {
+
+  db.Article.findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      $set: {
+        saved: true
+      }
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+app.get("/save", function (req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({
+      saved: true
+    })
+    .then(function (dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});

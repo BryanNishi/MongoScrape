@@ -1,17 +1,26 @@
-//pull articles from database
+//ARTICLES************************************************ARTICLES***************************************************
+//pull articles from database and display on DOM
 $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display each article card
-    $("#articles").append('<div class="card" id="articleCard"><div class="card-body"><h5 class="card-title">' + data[i].title + '</h5><p class="card-text">' + data[i].summary + '</p><a class="btn btn-success" id="' + data[i]._id + '">Add Note</a><a class="btn btn-info" id="' + data[i]._id + '">Save Article</a><a href="' + data[i].link + '" class="btn btn-warning">Go to Article</a></div></div>');
+    $("#articles").append('<div class="card" id="articleCard"><div class="card-body"><h5 class="card-title">' + data[i].title + '</h5><p class="card-text">' + data[i].summary + '</p><a class="btn btn-success" id="' + data[i]._id + '">Add Note</a><a class="btn btn-info save" data-id="' + data[i]._id + '">Save Article</a><a href="' + data[i].link + '" class="btn btn-warning">Go to Article</a></div></div>');
   }
 });
 
-// Whenever someone clicks a card
+//pull SAVED articles and display on DOM
+$.getJSON("/save", function (data) {
+  for (var i = 0; i < data.length; i++) {
+    // Display each article card
+    $("#savedArticles").append('<div class="card" id="articleCard"><div class="card-body"><h5 class="card-title">' + data[i].title + '</h5><p class="card-text">' + data[i].summary + '</p><a class="btn btn-success" id="' + data[i]._id + '">Add Note</a><a class="btn btn-danger delete" data-id="' + data[i]._id + '">Delete Article</a><a href="' + data[i].link + '" class="btn btn-warning">Go to Article</a></div></div>');
+  }
+});
+
+//NOTES **************************************************NOTES****************************************************
+// Whenever someone clicks to add a note
 $(document).on("click", ".btn-success", function () {
   // Empty note section
   $("#notes").empty();
   var thisId = (this.id);
-  //AJAX for ARTICLE*************************************AJAX for ARTICLE
   $.ajax({
       method: "GET",
       url: "/articles/" + thisId
@@ -36,8 +45,6 @@ $(document).on("click", ".btn-success", function () {
 $(document).on("click", "#savenote", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
-
-  // AJAX for NOTE*****************************************AJAX for NOTE
   $.ajax({
       method: "POST",
       url: "/articles/" + thisId,
@@ -56,51 +63,22 @@ $(document).on("click", "#savenote", function () {
   $("#bodyinput").val("");
 });
 
-
+//SAVED **************************************************SAVED****************************************************
 // When you click the savearticle button
-$(document).on("click", "#savearticle", function () {
-  // Grab the id associated with the article from the submit button
+// Add article to saved
+$(document).on("click", ".save", function () {
   var thisId = $(this).attr("data-id");
-
-  // AJAX
   $.ajax({
-      method: "POST",
-      url: "/savedArticles/" + thisId,
-      data: {
-        title: $("#titleinput").val(),
-        body: $("#bodyinput").val()
-      }
-    })
-    .then(function (data) {
-      // Empty the notes section on submit 
-      $("#notes").empty();
-    });
+    method: "GET",
+    url: "/save/" + thisId
+  }).then(function (data) {
+    for (var i = 0; i < data.length; i++) {
+      // Display each article card
+      $("#savedArticles").append('<div class="card" id="articleCard"><div class="card-body"><h5 class="card-title">' + data[i].title + '</h5><p class="card-text">' + data[i].summary + '</p><a class="btn btn-success" id="' + data[i]._id + '">Add Note</a><a class="btn btn-info save" id="' + data[i]._id + '">Save Article</a><a href="' + data[i].link + '" class="btn btn-warning">Go to Article</a></div></div>');
+    }
+  })
 
-  // reset data entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
+  $(this).html("Saved!");
 });
 
-// When you click the deletearticle button
-$(document).on("click", "#deletearticle", function () {
-  // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
-
-  // AJAX
-  $.ajax({
-      method: "DELETE",
-      url: "/articles/" + thisId,
-      data: {
-        title: $("#titleinput").val(),
-        body: $("#bodyinput").val()
-      }
-    })
-    .then(function (data) {
-      // Empty the notes section on submit 
-      $("#notes").empty();
-    });
-
-  // reset data entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-});
+//Delete Saved
